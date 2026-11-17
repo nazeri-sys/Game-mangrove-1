@@ -1,0 +1,951 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eksponen Quest: Sifat Bilangan Berpangkat (Kelas X)</title>
+    <!-- Tailwind CSS untuk Styling Responsif & Modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Fredoka untuk nuansa edukasi & game -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tone.js untuk Efek Suara Game & Kuis tanpa aset eksternal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+        .font-game {
+            font-family: 'Fredoka', sans-serif;
+        }
+        /* Animasi Kustom */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+        }
+        .btn-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        /* Formatting Pangkat Matematika */
+        sup {
+            font-size: 0.7em;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+            top: -0.5em;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+
+    <!-- Navbar Utama -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-emerald-100 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-game text-xl shadow-md">
+                    a<sup>n</sup>
+                </div>
+                <div>
+                    <h1 class="font-game font-bold text-lg sm:text-xl text-emerald-900 leading-tight">Eksponen Quest</h1>
+                    <p class="text-xs text-emerald-600 font-medium">Modul MAT/E/X/02 • Matematika Kelas X</p>
+                </div>
+            </div>
+
+            <!-- Navigasi Tab -->
+            <nav class="flex bg-emerald-100/70 p-1 rounded-xl w-full sm:w-auto justify-between sm:justify-start">
+                <button onclick="switchTab('materi')" id="tab-materi" class="tab-btn flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white text-emerald-800 shadow-sm">
+                    📘 Konsep & LKPD
+                </button>
+                <button onclick="switchTab('game')" id="tab-game" class="tab-btn flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-emerald-700 hover:text-emerald-900">
+                    🦠 Game Mangrove
+                </button>
+                <button onclick="switchTab('kuis')" id="tab-kuis" class="tab-btn flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-emerald-700 hover:text-emerald-900">
+                    📝 Tes Formatif
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-6">
+
+        <!-- ========================================== -->
+        <!-- SECTION 1: RINGKASAN MATERI & POLA INDUKTIF -->
+        <!-- ========================================== -->
+        <section id="section-materi" class="space-y-6">
+            <!-- Hero / Masalah Kontekstual Mangrove -->
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-emerald-100 relative overflow-hidden">
+                <div class="absolute -right-8 -top-8 w-40 h-40 bg-emerald-100/50 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <div class="flex-1 space-y-3">
+                        <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold tracking-wide uppercase">
+                            Orientasi Masalah Kontekstual
+                        </span>
+                        <h2 class="font-game text-2xl sm:text-3xl font-bold text-slate-800">
+                            Misteri Populasi Fitoplankton di Hutan Mangrove 🌿
+                        </h2>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                            Di area konservasi mangrove, satu mikroorganisme <strong>fitoplankton</strong> membelah diri menjadi 2 setiap jam. Pada jam ke-3 terdapat <strong>2<sup>3</sup></strong> populasi, dan pada jam ke-5 terdapat <strong>2<sup>5</sup></strong> populasi.
+                        </p>
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-3.5 rounded-r-xl text-sm text-amber-900">
+                            <strong>Pertanyaan Pemantik:</strong> Bagaimana cara paling cepat mengalikan <strong>2<sup>3</sup></strong> dengan <strong>2<sup>5</sup></strong> tanpa harus menjabarkan seluruh angka duanya satu per satu?
+                        </div>
+                    </div>
+                    <div class="w-full md:w-64 bg-gradient-to-b from-teal-600 to-emerald-700 rounded-2xl p-5 text-white text-center shadow-lg">
+                        <div class="text-4xl mb-2 animate-float">🦠 ➔ 🦠🦠</div>
+                        <p class="text-xs uppercase tracking-wider text-emerald-200 font-semibold">Simulasi Pembelahan</p>
+                        <div class="mt-3 bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                            <p class="text-sm font-medium">2<sup>3</sup> × 2<sup>5</sup> = 2<sup>(3 + 5)</sup> = <span class="text-yellow-300 font-bold text-lg">2<sup>8</sup></span></p>
+                            <p class="text-xs text-emerald-100 mt-1">(256 Fitoplankton)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5 Sifat Dasar Eksponen (IKTP 1 - 4) -->
+            <div>
+                <h3 class="font-game text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span>🔑</span> 5 Sifat Dasar Bilangan Berpangkat Bulat
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Sifat 1 -->
+                    <div class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold px-2.5 py-1 bg-blue-100 text-blue-700 rounded-lg">Sifat 1: Perkalian</span>
+                        </div>
+                        <div class="my-3 py-3 bg-slate-50 rounded-xl text-center font-game text-xl text-slate-800 border border-slate-100">
+                            a<sup>m</sup> × a<sup>n</sup> = a<sup>m + n</sup>
+                        </div>
+                        <p class="text-xs text-slate-600">Basis sama dikalikan ➔ <strong>pangkat dijumlahkan</strong>. Contoh: 3<sup>2</sup> × 3<sup>4</sup> = 3<sup>6</sup>.</p>
+                    </div>
+
+                    <!-- Sifat 2 -->
+                    <div class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold px-2.5 py-1 bg-purple-100 text-purple-700 rounded-lg">Sifat 2: Pembagian</span>
+                        </div>
+                        <div class="my-3 py-3 bg-slate-50 rounded-xl text-center font-game text-xl text-slate-800 border border-slate-100">
+                            a<sup>m</sup> ÷ a<sup>n</sup> = a<sup>m - n</sup>
+                        </div>
+                        <p class="text-xs text-slate-600">Basis sama dibagi (a ≠ 0) ➔ <strong>pangkat dikurangkan</strong>. Contoh: 5<sup>7</sup> ÷ 5<sup>3</sup> = 5<sup>4</sup>.</p>
+                    </div>
+
+                    <!-- Sifat 3 -->
+                    <div class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold px-2.5 py-1 bg-amber-100 text-amber-700 rounded-lg">Sifat 3: Perpangkatan</span>
+                        </div>
+                        <div class="my-3 py-3 bg-slate-50 rounded-xl text-center font-game text-xl text-slate-800 border border-slate-100">
+                            (a<sup>m</sup>)<sup>n</sup> = a<sup>m × n</sup>
+                        </div>
+                        <p class="text-xs text-slate-600">Bilangan berpangkat dipangkatkan ➔ <strong>pangkat dikalikan</strong>. Contoh: (2<sup>3</sup>)<sup>2</sup> = 2<sup>6</sup>.</p>
+                    </div>
+
+                    <!-- Sifat 4 -->
+                    <div class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-lg">Sifat 4: Pangkat Nol</span>
+                        </div>
+                        <div class="my-3 py-3 bg-slate-50 rounded-xl text-center font-game text-xl text-slate-800 border border-slate-100">
+                            a<sup>0</sup> = 1
+                        </div>
+                        <p class="text-xs text-slate-600">Semua bilangan bukan nol (a ≠ 0) dipangkatkan 0 hasilnya <strong>1</strong>. Contoh: 2026<sup>0</sup> = 1.</p>
+                    </div>
+
+                    <!-- Sifat 5 -->
+                    <div class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition-shadow sm:col-span-2 lg:col-span-2">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold px-2.5 py-1 bg-rose-100 text-rose-700 rounded-lg">Sifat 5: Pangkat Bulat Negatif</span>
+                        </div>
+                        <div class="my-3 py-3 bg-slate-50 rounded-xl text-center font-game text-xl text-slate-800 border border-slate-100">
+                            a<sup>-n</sup> = 1 / a<sup>n</sup>
+                        </div>
+                        <p class="text-xs text-slate-600">Mengubah pangkat negatif menjadi positif dengan menjadikannya kebalikan pecahan (a ≠ 0). Contoh: 2<sup>-3</sup> = 1 / 2<sup>3</sup> = 1/8.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Eksplorasi Pola Induktif Interaktif (LKPD Mini) -->
+            <div class="bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm">
+                <h3 class="font-game text-lg font-bold text-slate-800 mb-1">🧪 Lab Eksplorasi Pola Deret (Pangkat Nol & Negatif)</h3>
+                <p class="text-xs sm:text-sm text-slate-500 mb-4">Klik tombol "Bagi dengan 2" untuk menemukan pola bagaimana 2<sup>0</sup> dan 2<sup>-1</sup> terbentuk!</p>
+                
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <button onclick="stepPattern(-1)" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold shadow-sm transition active:scale-95">
+                        ÷ 2 (Turunkan Pangkat)
+                    </button>
+                    <button onclick="stepPattern(1)" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-sm font-semibold shadow-sm transition active:scale-95">
+                        × 2 (Naikkan Pangkat)
+                    </button>
+                    <button onclick="resetPattern()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition">
+                        Reset
+                    </button>
+                </div>
+
+                <div id="pattern-display" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 text-center">
+                    <!-- Diisi oleh JS -->
+                </div>
+            </div>
+
+            <!-- Tombol Lanjut ke Game -->
+            <div class="flex justify-center pt-2">
+                <button onclick="switchTab('game')" class="btn-glow px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-game text-lg rounded-2xl shadow-lg transition transform hover:-translate-y-0.5">
+                    Mulai Misi Game Mangrove 🚀
+                </button>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECTION 2: GAME EDUKASI "EKSPEDISI FITOPLANKTON" -->
+        <!-- ========================================== -->
+        <section id="section-game" class="hidden space-y-4">
+            <div class="bg-slate-900 text-white rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-700">
+                <!-- Header HUD Game -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-700/80">
+                    <div>
+                        <h2 class="font-game text-xl sm:text-2xl text-emerald-400 flex items-center gap-2">
+                            <span>🦠</span> Ekspedisi Fitoplankton Mangrove
+                        </h2>
+                        <p class="text-xs text-slate-400">Tangkap gelembung jawaban eksponen yang tepat sebelum waktu habis!</p>
+                    </div>
+                    <div class="flex items-center gap-3 sm:gap-5 bg-slate-800 px-4 py-2 rounded-2xl border border-slate-700">
+                        <div class="text-center">
+                            <span class="block text-[10px] uppercase text-slate-400 font-bold">Skor</span>
+                            <span id="game-score" class="font-game text-lg text-yellow-400">0</span>
+                        </div>
+                        <div class="h-6 w-px bg-slate-700"></div>
+                        <div class="text-center">
+                            <span class="block text-[10px] uppercase text-slate-400 font-bold">Nyawa</span>
+                            <span id="game-lives" class="text-sm sm:text-base">❤️❤️❤️</span>
+                        </div>
+                        <div class="h-6 w-px bg-slate-700"></div>
+                        <div class="text-center">
+                            <span class="block text-[10px] uppercase text-slate-400 font-bold">Level</span>
+                            <span id="game-level" class="font-game text-lg text-cyan-400">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Target Misi Soal -->
+                <div id="game-mission-bar" class="my-4 bg-gradient-to-r from-emerald-900/80 to-teal-900/80 border border-emerald-500/40 rounded-2xl p-3 sm:p-4 text-center">
+                    <span class="text-xs uppercase tracking-widest text-emerald-300 font-bold block mb-1">Sederhanakan Bentuk Eksponen Berikut:</span>
+                    <div id="game-target-eq" class="font-game text-2xl sm:text-4xl text-white tracking-wide">
+                        Siap Memulai Misi?
+                    </div>
+                </div>
+
+                <!-- Area Canvas Game Responsif -->
+                <div class="relative w-full h-[340px] sm:h-[400px] bg-gradient-to-b from-cyan-950 via-teal-950 to-emerald-950 rounded-2xl overflow-hidden border-2 border-teal-800/60 select-none">
+                    <canvas id="gameCanvas" class="w-full h-full block cursor-pointer"></canvas>
+
+                    <!-- Overlay Start / Game Over -->
+                    <div id="game-overlay" class="absolute inset-0 bg-slate-900/85 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-10">
+                        <div class="text-5xl mb-3 animate-bounce">🌿🦠🔬</div>
+                        <h3 id="overlay-title" class="font-game text-2xl sm:text-3xl text-white mb-2">Misi Penyelamatan Ekosistem</h3>
+                        <p id="overlay-desc" class="text-slate-300 text-sm max-w-md mb-6">
+                            Klik atau ketuk gelembung fitoplankton yang memuat hasil penyederhanaan eksponen yang benar. Hati-hati terhadap gelembung jebakan!
+                        </p>
+                        <button onclick="startGame()" class="px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-game font-bold text-lg rounded-2xl shadow-lg transition transform active:scale-95">
+                            ▶ Mulai Bermain
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Kontrol Ekstra di Luar Canvas -->
+                <div class="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
+                    <p>💡 Tips: Gunakan sifat a<sup>m</sup>×a<sup>n</sup> = a<sup>m+n</sup> atau a<sup>m</sup>÷a<sup>n</sup> = a<sup>m-n</sup></p>
+                    <button onclick="toggleSound()" id="sound-btn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl border border-slate-700 transition">
+                        🔊 Suara: Aktif
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECTION 3: KUIS & TES FORMATIF (ASESMEN)   -->
+        <!-- ========================================== -->
+        <section id="section-kuis" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-emerald-100">
+                <!-- Header Kuis -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+                    <div>
+                        <span class="px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold">Asesmen Pengetahuan (IKTP 1 - 4)</span>
+                        <h2 class="font-game text-2xl font-bold text-slate-800 mt-2">Tes Formatif: Sifat Bilangan Berpangkat</h2>
+                        <p class="text-sm text-slate-500">Jawab 10 soal berikut untuk mengukur pemahamanmu terhadap modul eksponen.</p>
+                    </div>
+                    <div id="quiz-progress-box" class="bg-emerald-50 px-4 py-3 rounded-2xl border border-emerald-100 text-right">
+                        <span class="text-xs text-emerald-700 font-semibold block">Progres Soal</span>
+                        <span id="quiz-counter" class="font-game text-xl text-emerald-900">1 / 10</span>
+                    </div>
+                </div>
+
+                <!-- Container Soal Aktif -->
+                <div id="quiz-body" class="py-6 space-y-6">
+                    <div class="flex items-center gap-2">
+                        <span id="quiz-iktp-badge" class="text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg border border-indigo-100">
+                            IKTP 1: Konsep Dasar
+                        </span>
+                    </div>
+
+                    <div id="quiz-question" class="text-lg sm:text-xl font-semibold text-slate-800 leading-relaxed">
+                        Memuat soal...
+                    </div>
+
+                    <!-- Pilihan Jawaban -->
+                    <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Diisi oleh JS -->
+                    </div>
+
+                    <!-- Kotak Pembahasan Instan -->
+                    <div id="quiz-feedback" class="hidden p-4 rounded-2xl text-sm leading-relaxed">
+                        <!-- Diisi oleh JS -->
+                    </div>
+
+                    <!-- Tombol Navigasi Soal -->
+                    <div class="flex justify-end pt-2">
+                        <button id="quiz-next-btn" onclick="nextQuestion()" disabled class="px-6 py-3 bg-emerald-600 disabled:bg-slate-200 disabled:text-slate-400 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-sm transition">
+                            Soal Berikutnya ➔
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Layar Hasil Akhir Tes -->
+                <div id="quiz-result" class="hidden py-8 text-center space-y-5">
+                    <div id="result-emoji" class="text-6xl">🏆</div>
+                    <h3 class="font-game text-3xl font-bold text-slate-800">Tes Formatif Selesai!</h3>
+                    <p class="text-slate-600 max-w-md mx-auto" id="result-message">
+                        Selamat! Kamu telah menyelesaikan evaluasi materi Sifat Bilangan Berpangkat Bulat.
+                    </p>
+
+                    <div class="max-w-xs mx-auto bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6">
+                        <span class="text-xs uppercase tracking-wider font-bold text-emerald-700">Nilai Akhir Kamu</span>
+                        <div id="result-score" class="font-game text-5xl font-bold text-emerald-800 my-2">100</div>
+                        <span id="result-detail" class="text-xs text-slate-600 font-medium">Benar 10 dari 10 soal</span>
+                    </div>
+
+                    <!-- Input Nama untuk Rekap / Salin Hasil -->
+                    <div class="max-w-md mx-auto pt-2 space-y-3">
+                        <input type="text" id="student-name" placeholder="Masukkan Nama Lengkap & Kelas (Contoh: Budi - X IPA 1)" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button onclick="copyResult()" class="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold rounded-xl shadow-sm transition">
+                                📋 Salin Laporan Nilai
+                            </button>
+                            <button onclick="restartQuiz()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-semibold rounded-xl transition">
+                                🔄 Ulangi Tes
+                            </button>
+                        </div>
+                        <p id="copy-toast" class="text-xs text-emerald-600 font-semibold hidden">✅ Hasil berhasil disalin! Silakan kirim ke Guru / LMS.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-emerald-100 py-4 text-center text-xs text-slate-500">
+        <p>Modul Ajar Matematika Fase E / Kelas X • Materi Eksponen & Gamifikasi</p>
+        <p class="mt-1">Siap di-host di <strong>GitHub Pages</strong> (Single-File HTML App)</p>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- SCRIPT LOGIKA APLIKASI, GAME, & KUIS       -->
+    <!-- ========================================== -->
+    <script>
+        // --- 1. SISTEM AUDIO (TONE.JS) ---
+        let soundEnabled = true;
+        function playTone(type) {
+            if (!soundEnabled) return;
+            try {
+                if (Tone.context.state !== 'running') Tone.start();
+                const synth = new Tone.Synth().toDestination();
+                if (type === 'correct') {
+                    synth.triggerAttackRelease("C5", "16n");
+                    setTimeout(() => synth.triggerAttackRelease("E5", "16n"), 80);
+                    setTimeout(() => synth.triggerAttackRelease("G5", "8n"), 160);
+                } else if (type === 'wrong') {
+                    synth.triggerAttackRelease("F3", "8n");
+                    setTimeout(() => synth.triggerAttackRelease("D3", "4n"), 120);
+                } else if (type === 'click') {
+                    synth.triggerAttackRelease("A4", "32n");
+                }
+            } catch (e) {
+                // Abaikan jika browser memblokir autoplay audio sebelum interaksi
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('sound-btn');
+            btn.textContent = soundEnabled ? '🔊 Suara: Aktif' : '🔇 Suara: Mati';
+        }
+
+        // --- 2. NAVIGASI TAB ---
+        function switchTab(tabName) {
+            playTone('click');
+            const sections = ['materi', 'game', 'kuis'];
+            sections.forEach(s => {
+                document.getElementById(`section-${s}`).classList.add('hidden');
+                const btn = document.getElementById(`tab-${s}`);
+                btn.classList.remove('bg-white', 'text-emerald-800', 'shadow-sm');
+                btn.classList.add('text-emerald-700');
+            });
+
+            document.getElementById(`section-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.classList.add('bg-white', 'text-emerald-800', 'shadow-sm');
+            activeBtn.classList.remove('text-emerald-700');
+
+            if (tabName === 'game') {
+                resizeCanvas();
+            }
+        }
+
+        // --- 3. LAB EKSPLORASI POLA DERET (LKPD INTERAKTIF) ---
+        let currentExp = 3;
+        function renderPattern() {
+            const container = document.getElementById('pattern-display');
+            container.innerHTML = '';
+            const exponents = [3, 2, 1, 0, -1, -2, -3];
+            
+            exponents.forEach(exp => {
+                const isActive = exp === currentExp;
+                let valStr = '';
+                if (exp > 0) valStr = Math.pow(2, exp).toString();
+                else if (exp === 0) valStr = '1';
+                else valStr = `1 / 2<sup>${Math.abs(exp)}</sup> (1/${Math.pow(2, Math.abs(exp))})`;
+
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-xl border transition-all ${
+                    isActive 
+                    ? 'bg-emerald-600 text-white border-emerald-700 shadow-md scale-105' 
+                    : 'bg-slate-50 text-slate-700 border-slate-200 opacity-75'
+                }`;
+                card.innerHTML = `
+                    <div class="font-game text-lg">2<sup>${exp}</sup></div>
+                    <div class="text-xs mt-1 font-semibold ${isActive ? 'text-yellow-200' : 'text-slate-500'}">= ${valStr}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function stepPattern(delta) {
+            playTone('click');
+            currentExp = Math.max(-3, Math.min(3, currentExp + delta));
+            renderPattern();
+        }
+        function resetPattern() {
+            playTone('click');
+            currentExp = 3;
+            renderPattern();
+        }
+        renderPattern();
+
+        // --- 4. GAME EDUKASI: EKSPEDISI FITOPLANKTON MANGROVE ---
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let gameLoopId = null;
+        let gameActive = false;
+        let score = 0;
+        let lives = 3;
+        let level = 1;
+        let bubbles = [];
+        let particles = [];
+        let currentMission = null;
+
+        // Bank Generator Soal Dinamis sesuai Level
+        function generateMission(lvl) {
+            const bases = ['2', '3', '5', 'a', 'x', 'p'];
+            const b = bases[Math.floor(Math.random() * bases.length)];
+            const m = Math.floor(Math.random() * 6) + 2; // 2..7
+            const n = Math.floor(Math.random() * 5) + 1; // 1..5
+
+            const types = lvl === 1 ? [0, 1] : [0, 1, 2, 3, 4];
+            const type = types[Math.floor(Math.random() * types.length)];
+
+            let qHTML = '', qText = '', ansText = '', distractors = [];
+
+            if (type === 0) {
+                // Perkalian: b^m * b^n = b^(m+n)
+                qHTML = `${b}<sup>${m}</sup> × ${b}<sup>${n}</sup>`;
+                ansText = `${b}^${m + n}`;
+                distractors = [`${b}^${m * n}`, `${b}^${Math.abs(m - n)}`, `${b}^${m + n + 1}`, `${b}^${n}`];
+            } else if (type === 1) {
+                // Pembagian: b^(m+n) / b^n = b^m
+                const top = m + n;
+                qHTML = `${b}<sup>${top}</sup> ÷ ${b}<sup>${n}</sup>`;
+                ansText = `${b}^${m}`;
+                distractors = [`${b}^${top + n}`, `${b}^${Math.floor(top / n)}`, `${b}^${m + 1}`, `${b}^${n}`];
+            } else if (type === 2) {
+                // Perpangkatan: (b^m)^n = b^(m*n)
+                qHTML = `(${b}<sup>${m}</sup>)<sup>${n}</sup>`;
+                ansText = `${b}^${m * n}`;
+                distractors = [`${b}^${m + n}`, `${b}^${Math.abs(m - n)}`, `${b}^${m * n + 2}`, `${b}^${m}`];
+            } else if (type === 3) {
+                // Pangkat Nol: (b^m)^0 = 1
+                qHTML = `(${b}<sup>${m}</sup>)<sup>0</sup>`;
+                ansText = `1`;
+                distractors = [`0`, `${b}`, `${b}^${m}`, `${b}^1`];
+            } else {
+                // Pangkat Negatif: b^n / b^(n+m) = b^(-m)
+                const bot = n + m;
+                qHTML = `${b}<sup>${n}</sup> ÷ ${b}<sup>${bot}</sup>`;
+                ansText = `${b}^-${m}`;
+                distractors = [`${b}^${m}`, `${b}^${n + bot}`, `-${b}^${m}`, `${b}^0`];
+            }
+
+            // Pastikan distractor unik dan tidak sama dengan jawaban
+            const uniqueDistractors = [...new Set(distractors)].filter(d => d !== ansText).slice(0, 3);
+            while (uniqueDistractors.length < 3) {
+                uniqueDistractors.push(`${b}^${Math.floor(Math.random() * 15) + 10}`);
+            }
+
+            return { qHTML, ansText, options: [ansText, ...uniqueDistractors] };
+        }
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        function spawnBubbles() {
+            bubbles = [];
+            const opts = [...currentMission.options].sort(() => Math.random() - 0.5);
+            const radius = Math.min(44, Math.max(34, canvas.width / 11));
+            const spacing = canvas.width / (opts.length + 1);
+
+            opts.forEach((opt, idx) => {
+                bubbles.push({
+                    x: spacing * (idx + 1),
+                    y: canvas.height + radius + (idx * 35),
+                    r: radius,
+                    vy: -(0.8 + (level * 0.25) + Math.random() * 0.4),
+                    vx: (Math.random() - 0.5) * 0.8,
+                    label: opt,
+                    isCorrect: opt === currentMission.ansText,
+                    wobble: Math.random() * Math.PI * 2
+                });
+            });
+        }
+
+        function createExplosion(x, y, color) {
+            for (let i = 0; i < 16; i++) {
+                const angle = (Math.PI * 2 / 16) * i;
+                const speed = 2 + Math.random() * 3;
+                particles.push({
+                    x, y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    alpha: 1,
+                    color
+                });
+            }
+        }
+
+        function drawFormattedText(ctx, text, x, y) {
+            // Menggambar notasi eksponen seperti "2^8" secara visual dengan pangkat di atas
+            if (text.includes('^')) {
+                const [base, exp] = text.split('^');
+                ctx.font = 'bold 20px Fredoka, sans-serif';
+                const baseW = ctx.measureText(base).width;
+                ctx.font = 'bold 14px Fredoka, sans-serif';
+                const expW = ctx.measureText(exp).width;
+                const totalW = baseW + expW;
+
+                ctx.font = 'bold 20px Fredoka, sans-serif';
+                ctx.fillText(base, x - totalW / 2 + baseW / 2, y + 4);
+                ctx.font = 'bold 14px Fredoka, sans-serif';
+                ctx.fillText(exp, x - totalW / 2 + baseW + expW / 2, y - 6);
+            } else {
+                ctx.font = 'bold 22px Fredoka, sans-serif';
+                ctx.fillText(text, x, y + 6);
+            }
+        }
+
+        function updateGame() {
+            if (!gameActive) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Gambar dekorasi akar mangrove / gelembung latar
+            ctx.fillStyle = 'rgba(45, 212, 191, 0.05)';
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.arc((canvas.width / 5) * i + 40, canvas.height - 20, 60, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            let correctEscaped = false;
+
+            // Update & Gambar Gelembung Fitoplankton
+            bubbles.forEach(b => {
+                b.wobble += 0.04;
+                b.y += b.vy;
+                b.x += b.vx + Math.sin(b.wobble) * 0.5;
+
+                // Pantulan dinding samping
+                if (b.x - b.r < 10) { b.x = b.r + 10; b.vx *= -1; }
+                if (b.x + b.r > canvas.width - 10) { b.x = canvas.width - b.r - 10; b.vx *= -1; }
+
+                // Cek jika gelembung jawaban benar lolos ke atas
+                if (b.y + b.r < 0 && b.isCorrect) {
+                    correctEscaped = true;
+                }
+
+                // Gambar Badan Gelembung
+                const grad = ctx.createRadialGradient(b.x - b.r * 0.3, b.y - b.r * 0.3, 5, b.x, b.y, b.r);
+                grad.addColorStop(0, 'rgba(167, 243, 208, 0.95)');
+                grad.addColorStop(0.7, 'rgba(16, 185, 129, 0.85)');
+                grad.addColorStop(1, 'rgba(6, 95, 70, 0.95)');
+
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                ctx.fillStyle = grad;
+                ctx.fill();
+                ctx.lineWidth = 2.5;
+                ctx.strokeStyle = '#ecfdf5';
+                ctx.stroke();
+
+                // Kilau gelembung
+                ctx.beginPath();
+                ctx.arc(b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.18, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.fill();
+
+                // Teks Jawaban
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'center';
+                drawFormattedText(ctx, b.label, b.x, b.y);
+            });
+
+            // Update Partikel Ledakan
+            particles.forEach((p, idx) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= 0.03;
+                if (p.alpha <= 0) {
+                    particles.splice(idx, 1);
+                } else {
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+            });
+
+            if (correctEscaped) {
+                handleWrongChoice(canvas.width / 2, 30);
+            }
+
+            gameLoopId = requestAnimationFrame(updateGame);
+        }
+
+        function handleCanvasClick(clientX, clientY) {
+            if (!gameActive) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+
+            for (let i = bubbles.length - 1; i >= 0; i--) {
+                const b = bubbles[i];
+                const dist = Math.hypot(x - b.x, y - b.y);
+                if (dist <= b.r + 6) {
+                    if (b.isCorrect) {
+                        playTone('correct');
+                        createExplosion(b.x, b.y, '#34d399');
+                        score += 10 * level;
+                        if (score >= level * 40) level++;
+                        updateHUD();
+                        nextMission();
+                    } else {
+                        createExplosion(b.x, b.y, '#fb7185');
+                        bubbles.splice(i, 1);
+                        handleWrongChoice(b.x, b.y);
+                    }
+                    break;
+                }
+            }
+        }
+
+        canvas.addEventListener('mousedown', (e) => handleCanvasClick(e.clientX, e.clientY));
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            handleCanvasClick(touch.clientX, touch.clientY);
+        }, { passive: false });
+
+        function handleWrongChoice(x, y) {
+            playTone('wrong');
+            lives--;
+            updateHUD();
+            if (lives <= 0) {
+                endGame();
+            } else {
+                nextMission();
+            }
+        }
+
+        function updateHUD() {
+            document.getElementById('game-score').textContent = score;
+            document.getElementById('game-level').textContent = level;
+            document.getElementById('game-lives').textContent = '❤️'.repeat(Math.max(0, lives)) + '🖤'.repeat(Math.max(0, 3 - lives));
+        }
+
+        function nextMission() {
+            currentMission = generateMission(level);
+            document.getElementById('game-target-eq').innerHTML = currentMission.qHTML;
+            spawnBubbles();
+        }
+
+        function startGame() {
+            playTone('click');
+            resizeCanvas();
+            score = 0;
+            lives = 3;
+            level = 1;
+            particles = [];
+            gameActive = true;
+            updateHUD();
+            document.getElementById('game-overlay').classList.add('hidden');
+            nextMission();
+            if (gameLoopId) cancelAnimationFrame(gameLoopId);
+            updateGame();
+        }
+
+        function endGame() {
+            gameActive = false;
+            cancelAnimationFrame(gameLoopId);
+            const overlay = document.getElementById('game-overlay');
+            document.getElementById('overlay-title').textContent = 'Misi Selesai!';
+            document.getElementById('overlay-desc').innerHTML = `Skor Akhir Kamu: <strong class="text-yellow-400 text-xl">${score}</strong> (Level ${level}). Terus berlatih menguasai sifat eksponen!`;
+            overlay.classList.remove('hidden');
+        }
+
+        // --- 5. TES FORMATIF / KUIS INTERAKTIF (10 SOAL SESUAI IKTP) ---
+        const quizData = [
+            {
+                iktp: "IKTP 1: Konsep Dasar Eksponen",
+                q: "Bentuk perkalian berulang dari (-3)<sup>4</sup> yang paling tepat adalah...",
+                options: [
+                    "(-3) × (-3) × (-3) × (-3)",
+                    "-(3 × 3 × 3 × 3)",
+                    "(-3) + (-3) + (-3) + (-3)",
+                    "(-4) × (-4) × (-4)"
+                ],
+                answer: 0,
+                explanation: "Tanda kurung menunjukkan basisnya adalah (-3), sehingga (-3) dikalikan berulang sebanyak 4 kali."
+            },
+            {
+                iktp: "IKTP 2: Sifat Perkalian Eksponen",
+                q: "Dalam ekosistem mangrove, populasi fitoplankton pada jam ke-3 adalah 2<sup>3</sup> dan pada jam ke-5 adalah 2<sup>5</sup>. Hasil dari 2<sup>3</sup> × 2<sup>5</sup> adalah...",
+                options: ["2<sup>15</sup>", "4<sup>8</sup>", "2<sup>8</sup>", "4<sup>15</sup>"],
+                answer: 2,
+                explanation: "Berdasarkan sifat a<sup>m</sup> × a<sup>n</sup> = a<sup>m+n</sup>, maka 2<sup>3</sup> × 2<sup>5</sup> = 2<sup>3+5</sup> = 2<sup>8</sup>."
+            },
+            {
+                iktp: "IKTP 2: Sifat Pembagian Eksponen",
+                q: "Bentuk sederhana dari 7<sup>9</sup> ÷ 7<sup>4</sup> adalah...",
+                options: ["7<sup>36</sup>", "7<sup>5</sup>", "1<sup>5</sup>", "7<sup>13</sup>"],
+                answer: 1,
+                explanation: "Untuk pembagian dengan basis sama, kurangkan pangkatnya: 7<sup>9-4</sup> = 7<sup>5</sup>."
+            },
+            {
+                iktp: "IKTP 2: Sifat Perpangkatan",
+                q: "Hasil penyederhanaan dari (5<sup>3</sup>)<sup>4</sup> adalah...",
+                options: ["5<sup>7</sup>", "5<sup>1</sup>", "5<sup>12</sup>", "25<sup>7</sup>"],
+                answer: 2,
+                explanation: "Bilangan berpangkat yang dipangkatkan lagi pangkatnya dikalikan: (5<sup>3</sup>)<sup>4</sup> = 5<sup>3×4</sup> = 5<sup>12</sup>."
+            },
+            {
+                iktp: "IKTP 3: Pangkat Nol",
+                q: "Dengan mengamati pola pembagian beruntun, nilai dari (3x<sup>2</sup>y<sup>5</sup>)<sup>0</sup> untuk x, y ≠ 0 adalah...",
+                options: ["0", "3", "1", "3xy"],
+                answer: 2,
+                explanation: "Setiap bilangan atau bentuk aljabar bukan nol yang dipangkatkan 0 selalu bernilai 1 (a<sup>0</sup> = 1)."
+            },
+            {
+                iktp: "IKTP 3: Pangkat Bulat Negatif",
+                q: "Bentuk pangkat positif dari 4<sup>-3</sup> adalah...",
+                options: ["-12", "1 / 4<sup>3</sup>", "-4<sup>3</sup>", "3 / 4"],
+                answer: 1,
+                explanation: "Sesuai definisi pangkat bulat negatif a<sup>-n</sup> = 1 / a<sup>n</sup>, maka 4<sup>-3</sup> = 1 / 4<sup>3</sup> = 1/64."
+            },
+            {
+                iktp: "IKTP 3: Evaluasi Nilai Pangkat Negatif",
+                q: "Nilai dari 2<sup>-2</sup> + 2<sup>-1</sup> adalah...",
+                options: ["2<sup>-3</sup>", "3/4", "1/6", "-6"],
+                answer: 1,
+                explanation: "2<sup>-2</sup> = 1/4 dan 2<sup>-1</sup> = 1/2. Jika dijumlahkan: 1/4 + 1/2 = 1/4 + 2/4 = 3/4."
+            },
+            {
+                iktp: "IKTP 4: Penyederhanaan Bentuk Aljabar",
+                q: "Bentuk sederhana dari (a<sup>4</sup> × a<sup>5</sup>) ÷ a<sup>3</sup> adalah...",
+                options: ["a<sup>6</sup>", "a<sup>12</sup>", "a<sup>17</sup>", "a<sup>2</sup>"],
+                answer: 0,
+                explanation: "Gunakan sifat perkalian lalu pembagian: a<sup>4+5-3</sup> = a<sup>9-3</sup> = a<sup>6</sup>."
+            },
+            {
+                iktp: "IKTP 4: Kombinasi Sifat Eksponen",
+                q: "Bentuk sederhana dari (2p<sup>3</sup>)<sup>2</sup> × p<sup>4</sup> adalah...",
+                options: ["2p<sup>10</sup>", "4p<sup>9</sup>", "4p<sup>10</sup>", "2p<sup>9</sup>"],
+                answer: 2,
+                explanation: "(2p<sup>3</sup>)<sup>2</sup> = 2<sup>2</sup> × p<sup>3×2</sup> = 4p<sup>6</sup>. Kemudian 4p<sup>6</sup> × p<sup>4</sup> = 4p<sup>6+4</sup> = 4p<sup>10</sup>."
+            },
+            {
+                iktp: "IKTP 4: Aplikasi Aljabar Lanjut",
+                q: "Sederhanakan bentuk (x<sup>5</sup> y<sup>-2</sup>) ÷ (x<sup>2</sup> y<sup>-4</sup>) menjadi pangkat positif...",
+                options: ["x<sup>3</sup> y<sup>-6</sup>", "x<sup>3</sup> y<sup>2</sup>", "x<sup>7</sup> y<sup>2</sup>", "x<sup>3</sup> / y<sup>2</sup>"],
+                answer: 1,
+                explanation: "x<sup>5-2</sup> = x<sup>3</sup>, dan y<sup>-2 - (-4)</sup> = y<sup>-2 + 4</sup> = y<sup>2</sup>. Jadi hasilnya x<sup>3</sup>y<sup>2</sup>."
+            }
+        ];
+
+        let currentQIndex = 0;
+        let quizScore = 0;
+        let answeredCurrent = false;
+
+        function loadQuestion() {
+            answeredCurrent = false;
+            const item = quizData[currentQIndex];
+            document.getElementById('quiz-counter').textContent = `${currentQIndex + 1} / ${quizData.length}`;
+            document.getElementById('quiz-iktp-badge').textContent = item.iktp;
+            document.getElementById('quiz-question').innerHTML = `${currentQIndex + 1}. ${item.q}`;
+
+            const optionsBox = document.getElementById('quiz-options');
+            optionsBox.innerHTML = '';
+
+            const letters = ['A', 'B', 'C', 'D'];
+            item.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/50 transition-all flex items-center gap-3 font-medium text-slate-700";
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 font-bold flex items-center justify-center shrink-0">${letters[idx]}</span>
+                    <span>${opt}</span>
+                `;
+                btn.onclick = () => selectAnswer(idx, btn);
+                optionsBox.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            const nextBtn = document.getElementById('quiz-next-btn');
+            nextBtn.disabled = true;
+            nextBtn.textContent = currentQIndex === quizData.length - 1 ? "Lihat Hasil Akhir 🏆" : "Soal Berikutnya ➔";
+        }
+
+        function selectAnswer(selectedIdx, btnElement) {
+            if (answeredCurrent) return;
+            answeredCurrent = true;
+
+            const item = quizData[currentQIndex];
+            const isCorrect = selectedIdx === item.answer;
+            const allBtns = document.querySelectorAll('.option-btn');
+
+            allBtns.forEach((b, idx) => {
+                b.disabled = true;
+                if (idx === item.answer) {
+                    b.classList.remove('border-slate-200');
+                    b.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+                } else if (idx === selectedIdx && !isCorrect) {
+                    b.classList.remove('border-slate-200');
+                    b.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                }
+            });
+
+            const feedbackBox = document.getElementById('quiz-feedback');
+            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-900', 'border-emerald-200', 'bg-rose-50', 'text-rose-900', 'border-rose-200');
+
+            if (isCorrect) {
+                playTone('correct');
+                quizScore++;
+                feedbackBox.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                feedbackBox.innerHTML = `<strong>✅ Benar!</strong> ${item.explanation}`;
+            } else {
+                playTone('wrong');
+                feedbackBox.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                feedbackBox.innerHTML = `<strong>❌ Kurang Tepat.</strong> ${item.explanation}`;
+            }
+
+            document.getElementById('quiz-next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            playTone('click');
+            if (currentQIndex < quizData.length - 1) {
+                currentQIndex++;
+                loadQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-body').classList.add('hidden');
+            document.getElementById('quiz-progress-box').classList.add('hidden');
+            const resultBox = document.getElementById('quiz-result');
+            resultBox.classList.remove('hidden');
+
+            const finalScore = Math.round((quizScore / quizData.length) * 100);
+            document.getElementById('result-score').textContent = finalScore;
+            document.getElementById('result-detail').textContent = `Benar ${quizScore} dari ${quizData.length} soal`;
+
+            if (finalScore >= 80) {
+                document.getElementById('result-emoji').textContent = '🏆';
+                document.getElementById('result-message').textContent = 'Luar biasa! Kamu sudah menguasai konsep dan sifat-sifat bilangan berpangkat bulat dengan sangat baik.';
+            } else if (finalScore >= 60) {
+                document.getElementById('result-emoji').textContent = '👍';
+                document.getElementById('result-message').textContent = 'Bagus! Coba mainkan kembali Game Mangrove untuk memantapkan sifat pangkat negatif dan aljabar.';
+            } else {
+                document.getElementById('result-emoji').textContent = '📚';
+                document.getElementById('result-message').textContent = 'Jangan menyerah! Pelajari kembali 5 sifat eksponen pada tab Konsep & LKPD lalu ulangi tes ini.';
+            }
+        }
+
+        function restartQuiz() {
+            playTone('click');
+            currentQIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-body').classList.remove('hidden');
+            document.getElementById('quiz-progress-box').classList.remove('hidden');
+            document.getElementById('copy-toast').classList.add('hidden');
+            loadQuestion();
+        }
+
+        function copyResult() {
+            const nameInput = document.getElementById('student-name').value.trim() || 'Peserta Didik';
+            const finalScore = Math.round((quizScore / quizData.length) * 100);
+            const reportText = `📊 LAPORAN TES FORMATIF EKSPONEN (MODUL MAT/E/X/02)\nNama/Kelas: ${nameInput}\nNilai Akhir: ${finalScore}/100 (Benar ${quizScore}/${quizData.length})\nSkor Game Mangrove: ${score}`;
+
+            const tempArea = document.createElement('textarea');
+            tempArea.value = reportText;
+            document.body.appendChild(tempArea);
+            tempArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempArea);
+
+            const toast = document.getElementById('copy-toast');
+            toast.classList.remove('hidden');
+            playTone('correct');
+        }
+
+        // Inisialisasi Kuis saat halaman dimuat
+        window.onload = function() {
+            loadQuestion();
+        };
+    </script>
+</body>
+</html>
